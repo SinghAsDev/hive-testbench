@@ -53,7 +53,6 @@ fi
 hdfs dfs -ls ${DIR}/ > /dev/null
 if [ $? -ne 0 ]; then
 	echo "Generating data at scale factor $SCALE."
-  hdfs dfs -mkdir -p ${DIR}
   pushd tpcds-gen
 	if ! hadoop jar target/*.jar -d ${DIR}/ -s ${SCALE}
   then
