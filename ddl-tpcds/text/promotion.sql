@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists promotion;
 
-create external table promotion
+create table promotion
 (
     p_promo_sk                int,
     p_promo_id                string,

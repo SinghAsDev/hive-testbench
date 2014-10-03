@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists ship_mode;
 
-create external table ship_mode(
+create table ship_mode(
       sm_ship_mode_sk           int               
 ,     sm_ship_mode_id           string              
 ,     sm_type                   string                      

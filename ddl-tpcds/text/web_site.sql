@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists web_site;
 
-create external table web_site
+create table web_site
 (
     web_site_sk           int,
     web_site_id           string,

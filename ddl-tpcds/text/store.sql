@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists store;
 
-create external table store
+create table store
 (
     s_store_sk                int,
     s_store_id                string,

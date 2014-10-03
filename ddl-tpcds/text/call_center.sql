@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists call_center;
 
-create external table call_center(
+create table call_center(
       cc_call_center_sk         int               
 ,     cc_call_center_id         string              
 ,     cc_rec_start_date        string                         

@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists catalog_returns;
 
-create external table catalog_returns
+create table catalog_returns
 (
     cr_returned_date_sk       int,
     cr_returned_time_sk       int,

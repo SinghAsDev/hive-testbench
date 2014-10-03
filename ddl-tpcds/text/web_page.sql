@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists web_page;
 
-create external table web_page(
+create table web_page(
       wp_web_page_sk            int               
 ,     wp_web_page_id            string              
 ,     wp_rec_start_date        string                         

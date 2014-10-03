@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists web_returns;
 
-create external table web_returns
+create table web_returns
 (
     wr_returned_date_sk       int,
     wr_returned_time_sk       int,

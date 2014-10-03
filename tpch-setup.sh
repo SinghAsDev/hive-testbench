@@ -39,26 +39,29 @@ if [ X"$SCALE" = "X" ]; then
 	usage
 fi
 if [ X"$DIR" = "X" ]; then
-	DIR=/tmp/tpch-generate
+  DIR=/user/hive/warehouse/tpch_text_${SCALE}.db
 fi
 if [ $SCALE -eq 1 ]; then
 	echo "Scale factor must be greater than 1"
 	exit 1
 fi
 
+
+
+
 # Do the actual data load.
-hdfs dfs -mkdir -p ${DIR}
-hdfs dfs -ls ${DIR}/${SCALE} > /dev/null
+hdfs dfs -ls ${DIR}/ > /dev/null
 if [ $? -ne 0 ]; then
-	echo "Generating data at scale factor $SCALE."
-	(cd tpch-gen; hadoop jar target/*.jar -d ${DIR}/${SCALE}/ -s ${SCALE})
+  echo "Generating data at scale factor $SCALE."
+  pushd tpcds-gen
+  if ! hadoop jar target/*.jar -d ${DIR}/ -s ${SCALE}
+  then
+    echo "Data generation failed, exiting."
+    exit 1
+  fi
+  popd
+  echo "TPC-H text data generation complete."
 fi
-hdfs dfs -ls ${DIR}/${SCALE} > /dev/null
-if [ $? -ne 0 ]; then
-	echo "Data generation failed, exiting."
-	exit 1
-fi
-echo "TPC-H text data generation complete."
 
 # Create the text/flat tables as external tables. These will be later be converted to ORCFile.
 echo "Loading text data into external tables."

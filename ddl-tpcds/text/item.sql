@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists item;
 
-create external table item
+create table item
 (
     i_item_sk                 int,
     i_item_id                 string,

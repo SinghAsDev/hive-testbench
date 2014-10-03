@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists date_dim;
 
-create external table date_dim
+create table date_dim
 (
     d_date_sk                 int,
     d_date_id                 string,

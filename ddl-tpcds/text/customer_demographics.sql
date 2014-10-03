@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists customer_demographics;
 
-create external table customer_demographics
+create table customer_demographics
 (
     cd_demo_sk                int,
     cd_gender                 string,

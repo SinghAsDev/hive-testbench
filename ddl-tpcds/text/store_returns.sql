@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists store_returns;
 
-create external table store_returns
+create table store_returns
 (
     sr_returned_date_sk       int,
     sr_return_time_sk         int,

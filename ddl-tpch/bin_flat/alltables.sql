@@ -2,7 +2,7 @@ create database if not exists ${DB};
 use ${DB};
 
 drop table if exists lineitem;
-create external table lineitem 
+create table lineitem 
 (L_ORDERKEY INT,
  L_PARTKEY INT,
  L_SUPPKEY INT,
@@ -23,7 +23,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE
 LOCATION '${LOCATION}/lineitem';
 
 drop table if exists part;
-create external table part (P_PARTKEY INT,
+create table part (P_PARTKEY INT,
  P_NAME STRING,
  P_MFGR STRING,
  P_BRAND STRING,
@@ -36,7 +36,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE
 LOCATION '${LOCATION}/part/';
 
 drop table if exists supplier;
-create external table supplier (S_SUPPKEY INT,
+create table supplier (S_SUPPKEY INT,
  S_NAME STRING,
  S_ADDRESS STRING,
  S_NATIONKEY INT,
@@ -47,7 +47,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE
 LOCATION '${LOCATION}/supplier/';
 
 drop table if exists partsupp;
-create external table partsupp (PS_PARTKEY INT,
+create table partsupp (PS_PARTKEY INT,
  PS_SUPPKEY INT,
  PS_AVAILQTY INT,
  PS_SUPPLYCOST DOUBLE,
@@ -56,7 +56,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE
 LOCATION'${LOCATION}/partsupp';
 
 drop table if exists nation;
-create external table nation (N_NATIONKEY INT,
+create table nation (N_NATIONKEY INT,
  N_NAME STRING,
  N_REGIONKEY INT,
  N_COMMENT STRING)
@@ -64,14 +64,14 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE
 LOCATION '${LOCATION}/nation';
 
 drop table if exists region;
-create external table region (R_REGIONKEY INT,
+create table region (R_REGIONKEY INT,
  R_NAME STRING,
  R_COMMENT STRING)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE
 LOCATION '${LOCATION}/region';
 
 drop table if exists customer;
-create external table customer (C_CUSTKEY INT,
+create table customer (C_CUSTKEY INT,
  C_NAME STRING,
  C_ADDRESS STRING,
  C_NATIONKEY INT,
@@ -83,7 +83,7 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE
 LOCATION '${LOCATION}/customer';
 
 drop table if exists orders;
-create external table orders (O_ORDERKEY INT,
+create table orders (O_ORDERKEY INT,
  O_CUSTKEY INT,
  O_ORDERSTATUS STRING,
  O_TOTALPRICE DOUBLE,

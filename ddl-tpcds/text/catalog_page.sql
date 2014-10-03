@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists catalog_page;
 
-create external table catalog_page(
+create table catalog_page(
       cp_catalog_page_sk        int               
 ,     cp_catalog_page_id        string              
 ,     cp_start_date_sk          int                       

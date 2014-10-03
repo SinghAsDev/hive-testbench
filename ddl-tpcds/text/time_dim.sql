@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists time_dim;
 
-create external table time_dim
+create table time_dim
 (
     t_time_sk                 int,
     t_time_id                 string,

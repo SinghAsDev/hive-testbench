@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists inventory;
 
-create external table inventory
+create table inventory
 (
     inv_date_sk			int,
     inv_item_sk			int,

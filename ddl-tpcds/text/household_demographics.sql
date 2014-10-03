@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists household_demographics;
 
-create external table household_demographics
+create table household_demographics
 (
     hd_demo_sk                int,
     hd_income_band_sk         int,

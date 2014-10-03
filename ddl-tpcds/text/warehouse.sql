@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists warehouse;
 
-create external table warehouse(
+create table warehouse(
       w_warehouse_sk            int               
 ,     w_warehouse_id            string              
 ,     w_warehouse_name          string                   

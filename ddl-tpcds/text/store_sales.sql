@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists store_sales;
 
-create external table store_sales
+create table store_sales
 (
     ss_sold_date_sk           int,
     ss_sold_time_sk           int,

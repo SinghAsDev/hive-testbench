@@ -3,7 +3,7 @@ use ${DB};
 
 drop table if exists customer;
 
-create external table customer
+create table customer
 (
     c_customer_sk             int,
     c_customer_id             string,
