@@ -36,4 +36,4 @@ create external table store
     s_tax_precentage          float                  
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

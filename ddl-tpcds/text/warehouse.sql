@@ -20,4 +20,4 @@ create external table warehouse(
 ,     w_gmt_offset              float                  
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

@@ -26,4 +26,4 @@ create external table promotion
     p_discount_active         string 
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

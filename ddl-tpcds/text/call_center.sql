@@ -37,4 +37,4 @@ create external table call_center(
 ,     cc_tax_percentage         float
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

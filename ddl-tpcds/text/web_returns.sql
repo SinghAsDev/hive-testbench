@@ -31,4 +31,4 @@ create external table web_returns
     wr_net_loss               float
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

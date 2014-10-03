@@ -12,4 +12,4 @@ create external table ship_mode(
 ,     sm_contract               string                      
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

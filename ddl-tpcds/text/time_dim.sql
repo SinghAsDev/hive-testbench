@@ -17,4 +17,4 @@ create external table time_dim
     t_meal_time               string
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

@@ -30,4 +30,4 @@ create external table store_sales
     ss_net_profit             float                  
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

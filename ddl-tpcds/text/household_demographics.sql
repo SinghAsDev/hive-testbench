@@ -12,4 +12,4 @@ create external table household_demographics
     hd_vehicle_count          int
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

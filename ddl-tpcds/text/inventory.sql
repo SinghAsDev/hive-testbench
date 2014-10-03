@@ -11,4 +11,4 @@ create external table inventory
     inv_quantity_on_hand	int
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

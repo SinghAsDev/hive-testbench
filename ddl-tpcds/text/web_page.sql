@@ -20,4 +20,4 @@ create external table web_page(
 ,     wp_max_ad_count           int
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

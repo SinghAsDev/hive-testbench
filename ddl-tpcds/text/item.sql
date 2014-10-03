@@ -29,4 +29,4 @@ create external table item
     i_product_name            string
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

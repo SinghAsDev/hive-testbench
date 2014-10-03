@@ -41,4 +41,4 @@ create external table web_sales
     ws_net_profit             float
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

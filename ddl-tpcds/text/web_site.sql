@@ -33,4 +33,4 @@ create external table web_site
     web_tax_percentage    float
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

@@ -9,4 +9,4 @@ create external table income_band(
 ,     ib_upper_bound            int
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

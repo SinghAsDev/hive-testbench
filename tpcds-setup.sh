@@ -1,16 +1,12 @@
 #!/bin/bash
-
+set -x
 function usage {
 	echo "Usage: tpcds-setup.sh scale_factor [temp_directory]"
 	exit 1
 }
 
 function runcommand {
-	if [ "X$DEBUG_SCRIPT" != "X" ]; then
-		$1
-	else
-		$1 2>/dev/null
-	fi
+  $1
 }
 
 if [ ! -f tpcds-gen/target/tpcds-gen-1.0-SNAPSHOT.jar ]; then
@@ -46,7 +42,7 @@ if [ X"$SCALE" = "X" ]; then
 	usage
 fi
 if [ X"$DIR" = "X" ]; then
-	DIR=/tmp/tpcds-generate
+	DIR=/user/hive/warehouse/tpcds_text_${SCALE}.db
 fi
 if [ $SCALE -eq 1 ]; then
 	echo "Scale factor must be greater than 1"
@@ -54,22 +50,23 @@ if [ $SCALE -eq 1 ]; then
 fi
 
 # Do the actual data load.
-hdfs dfs -mkdir -p ${DIR}
-hdfs dfs -ls ${DIR}/${SCALE} > /dev/null
+hdfs dfs -ls ${DIR}/ > /dev/null
 if [ $? -ne 0 ]; then
 	echo "Generating data at scale factor $SCALE."
-	(cd tpcds-gen; hadoop jar target/*.jar -d ${DIR}/${SCALE}/ -s ${SCALE})
+  hdfs dfs -mkdir -p ${DIR}
+  pushd tpcds-gen
+	if ! hadoop jar target/*.jar -d ${DIR}/ -s ${SCALE}
+  then
+    echo "Data generation failed, exiting."
+    exit 1
+  fi
+  popd
+  echo "TPC-DS text data generation complete."
 fi
-hdfs dfs -ls ${DIR}/${SCALE} > /dev/null
-if [ $? -ne 0 ]; then
-	echo "Data generation failed, exiting."
-	exit 1
-fi
-echo "TPC-DS text data generation complete."
 
 # Create the text/flat tables as external tables. These will be later be converted to ORCFile.
 echo "Loading text data into external tables."
-runcommand "hive -i settings/load-flat.sql -f ddl-tpcds/text/alltables.sql -d DB=tpcds_text_${SCALE} -d LOCATION=${DIR}/${SCALE}"
+runcommand "hive -i settings/load-flat.sql -f ddl-tpcds/text/alltables.sql -d DB=tpcds_text_${SCALE}"
 
 # Create the partitioned and bucketed tables.
 if [ "X$FORMAT" = "X" ]; then

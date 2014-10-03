@@ -16,4 +16,4 @@ create external table customer_demographics
     cd_dep_college_count      int 
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

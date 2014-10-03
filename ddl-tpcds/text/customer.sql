@@ -25,4 +25,4 @@ create external table customer
     c_last_review_date        string
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

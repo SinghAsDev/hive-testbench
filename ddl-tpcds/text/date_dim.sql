@@ -35,4 +35,4 @@ create external table date_dim
     d_current_year            string 
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

@@ -15,4 +15,4 @@ create external table catalog_page(
 ,     cp_type                   string
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

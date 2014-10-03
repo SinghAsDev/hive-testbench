@@ -9,4 +9,4 @@ create external table reason(
 ,     r_reason_desc             string                
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

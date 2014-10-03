@@ -27,4 +27,4 @@ create external table store_returns
     sr_net_loss               float             
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;

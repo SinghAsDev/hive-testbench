@@ -20,4 +20,4 @@ create external table customer_address
     ca_location_type          string
 )
 row format delimited fields terminated by '|' 
-location '${LOCATION}';
+;
