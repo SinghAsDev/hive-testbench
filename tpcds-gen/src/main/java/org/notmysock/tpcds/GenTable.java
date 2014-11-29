@@ -57,33 +57,28 @@ public class GenTable extends Configured implements Tool {
     options.addOption("d", "dir", true, "dir");
     options.addOption("p", "parallel", true, "parallel");
     CommandLine line = parser.parse(options, remainingArgs);
-
     if (!(line.hasOption("scale") && line.hasOption("dir"))) {
       HelpFormatter f = new HelpFormatter();
       f.printHelp("GenTable", options);
       return 1;
     }
-
     int scale = Integer.parseInt(line.getOptionValue("scale"));
-    String table = "all";
-    if (line.hasOption("table")) {
-      table = line.getOptionValue("table");
+    if (!line.hasOption("table")) {
+      throw new IllegalArgumentException("Table is required");
     }
-    Path out = new Path(line.getOptionValue("dir"));
-
+    String table = line.getOptionValue("table");
+    Path out = new Path(line.getOptionValue("dir"), table);
     int parallel = scale;
-
     if (line.hasOption("parallel")) {
       parallel = Integer.parseInt(line.getOptionValue("parallel"));
     }
-
     if (parallel == 1 || scale == 1) {
       System.err.println("The MR task does not work for scale=1 or parallel=1");
       return 1;
     }
-
+    FileSystem fs = FileSystem.get(getConf());
     Path in = genInput(table, scale, parallel);
-
+    fs.delete(out, true);
     Path dsdgen = copyJar(new File("target/lib/dsdgen.jar"));
     URI dsuri = dsdgen.toUri();
     URI link = new URI(dsuri.getScheme(), dsuri.getUserInfo(), dsuri.getHost(),
@@ -111,20 +106,15 @@ public class GenTable extends Configured implements Tool {
 
     // use multiple output to only write the named files
     LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
-    MultipleOutputs.addNamedOutput(job, "text", TextOutputFormat.class,
-        LongWritable.class, Text.class);
-
     boolean success = job.waitForCompletion(true);
-
     // cleanup
-    FileSystem fs = FileSystem.get(getConf());
     fs.delete(in, false);
     fs.delete(dsdgen, false);
 
     return success ? 0 : 1;
   }
 
-  public Path copyJar(File jar) throws Exception {
+  private Path copyJar(File jar) throws Exception {
     MessageDigest md = MessageDigest.getInstance("MD5");
     InputStream is = new FileInputStream(jar);
     try {
@@ -142,7 +132,7 @@ public class GenTable extends Configured implements Tool {
     return dst;
   }
 
-  public Path genInput(String table, int scale, int parallel) throws Exception {
+  private Path genInput(String table, int scale, int parallel) throws Exception {
     long epoch = System.currentTimeMillis() / 1000;
 
     Path in = new Path("/tmp/" + table + "_" + scale + "-" + epoch);
@@ -165,20 +155,9 @@ public class GenTable extends Configured implements Tool {
   }
 
   static final class DSDGen extends Mapper<LongWritable, Text, Text, Text> {
-    private MultipleOutputs<Text, Text> mos;
-
-    protected void setup(Context context) throws IOException {
-      mos = new MultipleOutputs<Text, Text>(context);
-    }
-
-    protected void cleanup(Context context) throws IOException,
-        InterruptedException {
-      mos.close();
-    }
 
     protected void map(LongWritable offset, Text command, Context context)
         throws IOException, InterruptedException {
-
       String[] args = command.toString().split(" ");
       String table = args[0];
       String scale = args[1];
@@ -206,13 +185,15 @@ public class GenTable extends Configured implements Tool {
           }
         }
       };
-      stderrReader.setName("stderrReader");
+      stderrReader.setName("StderrReader");
       stderrReader.setDaemon(true);
       stderrReader.start();
       BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
       String line;
+      Text textLine = new Text();
       while ((line = br.readLine()) != null) {
-        mos.write("text", line, null, table);
+        textLine.set(line);
+        context.write(textLine, null);
       }
       br.close();
       int status = p.waitFor();

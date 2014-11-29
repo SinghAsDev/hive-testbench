@@ -50,20 +50,19 @@ if [ $SCALE -eq 1 ]; then
 fi
 
 # Do the actual data load.
-f hdfs dfs -ls ${DIR}/ > /dev/null
-  echo "Generating data at scale factor $SCALE."
-  pushd tpcds-gen
-  for t in ${FACTS} ${DIMS}
-  do
-    if ! hadoop jar target/*.jar -d ${DIR}/ -s ${SCALE} -t $t
-    then
-      echo "Data generation failed, exiting."
-      exit 1
-    fi
-  done
-  popd
-  echo "TPC-DS text data generation complete."
-fi
+hdfs dfs -rm -r ${DIR}
+echo "Generating data at scale factor $SCALE."
+pushd tpcds-gen
+for t in ${FACTS} ${DIMS}
+do
+  if ! hadoop jar target/*.jar -d ${DIR}/ -s ${SCALE} -t $t
+  then
+    echo "Data generation failed, exiting."
+    exit 1
+  fi
+done
+popd
+echo "TPC-DS text data generation complete."
 
 # Create the text/flat tables as external tables. These will be later be converted to ORCFile.
 echo "Loading text data into external tables."
