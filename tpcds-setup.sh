@@ -50,7 +50,7 @@ if [ $SCALE -eq 1 ]; then
 fi
 
 # Do the actual data load.
-hdfs dfs -rm -r ${DIR}
+hdfs dfs -rm -r -skipTrash ${DIR}
 echo "Generating data at scale factor $SCALE."
 pushd tpcds-gen
 for t in ${FACTS} ${DIMS}
@@ -60,6 +60,7 @@ do
     echo "Data generation failed, exiting."
     exit 1
   fi
+  hdfs dfs -setrep -R 2 ${DIR}
 done
 popd
 echo "TPC-DS text data generation complete."
@@ -104,5 +105,5 @@ do
   fi
   i=`expr $i + 1`
 done
-
+hdfs dfs -rm -r -skipTrash ${DIR}
 echo "Data loaded into database ${DATABASE}."
