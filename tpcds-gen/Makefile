@@ -16,7 +16,7 @@ target/lib/dsdgen.jar: target/tools/dsdgen
 	cd "target/tpcds-kit"; mkdir -p ../lib/; ( jar cvf ../lib/dsdgen.jar tools/ || gjar cvf ../lib/dsdgen.jar tools/ )
 
 target/tools/dsdgen: target/tpcds_kit
-	cd "target/tpcds-kit/tools"; make clean; make dsdgen
+	cd "target/tpcds-kit/tools"; make -f Makefile.suite
 
 clean:
 	mvn clean
