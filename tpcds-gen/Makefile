@@ -10,7 +10,7 @@ target/tpcds_kit: tpcds_kit
 	mv tpcds-kit target/
 
 tpcds_kit:
-	git clone git clone "https://github.com/grahn/tpcds-kit.git"
+	git clone "https://github.com/grahn/tpcds-kit.git"
 
 target/lib/dsdgen.jar: target/tools/dsdgen
 	cd "target/tpcds-kit"; mkdir -p ../lib/; ( jar cvf ../lib/dsdgen.jar tools/ || gjar cvf ../lib/dsdgen.jar tools/ )
