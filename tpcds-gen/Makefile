@@ -1,22 +1,22 @@
 
 all: target/lib/dsdgen.jar target/tpcds-gen-1.0-SNAPSHOT.jar
 
-target/tpcds-gen-1.0-SNAPSHOT.jar: $(shell find -name *.java) 
+target/tpcds-gen-1.0-SNAPSHOT.jar: $(shell find -name *.java)
 	mvn package
 
-target/tpcds_kit.zip: tpcds_kit.zip
+target/tpcds_kit: tpcds-kit
 	mkdir -p target/
-	cp tpcds_kit.zip target/tpcds_kit.zip
+  rm -rf target/tpcds-kit
+  mv tpcds-kit target/
 
-tpcds_kit.zip:
-	curl --output tpcds_kit.zip http://www.tpc.org/tpcds/dsgen/dsgen-download-files.asp?download_key=NaN
+tpcds_kit:
+  git clone git clone "https://github.com/grahn/tpcds-kit.git"
 
 target/lib/dsdgen.jar: target/tools/dsdgen
-	cd target/; mkdir -p lib/; ( jar cvf lib/dsdgen.jar tools/ || gjar cvf lib/dsdgen.jar tools/ )
+  cd "target/tpcds-kit"; mkdir -p ../lib/; ( jar cvf ../lib/dsdgen.jar tools/ || gjar cvf ../lib/dsdgen.jar tools/ )
 
 target/tools/dsdgen: target/tpcds_kit.zip
-	test -d target/tools/ || (cd target; unzip tpcds_kit.zip; cd tools; cat ../../*.patch | patch -p0 )
-	cd target/tools; make clean; make dsdgen
+  cd "target/tpcds-kit/tools"; make clean; make dsdgen
 
 clean:
 	mvn clean
