@@ -184,8 +184,9 @@ public class GenTable extends Configured implements Tool {
       String scale = args[1];
       String parallel = args[2];
       String child = args[3];
-      String cmd = String.format("./dsdgen -TABLE %s -FORCE Y -SCALE %d -PARALLEL %d -CHILD %d -QUIET Y -FILTER Y",
+      String cmd = String.format("./dsdgen -TABLE %s -FORCE Y -SCALE %s -PARALLEL %s -CHILD %s -QUIET Y -FILTER Y",
           table, scale, parallel, child);
+      System.out.println(cmd);
       final Process p = Runtime.getRuntime().exec(cmd, null,
           new File("dsdgen/tools/"));
       
@@ -195,7 +196,6 @@ public class GenTable extends Configured implements Tool {
             InputStreamReader is = new InputStreamReader(p.getErrorStream());
             BufferedReader br = new BufferedReader(is);
             String read;
-
             while ((read = br.readLine()) != null) {
               System.err.println(read);
             }
