@@ -60,7 +60,6 @@ do
     echo "Data generation failed, exiting."
     exit 1
   fi
-  hdfs dfs -setrep -R 2 ${DIR}
 done
 popd
 echo "TPC-DS text data generation complete."

@@ -84,6 +84,7 @@ public class GenTable extends Configured implements Tool {
     URI link = new URI(dsuri.getScheme(), dsuri.getUserInfo(), dsuri.getHost(),
         dsuri.getPort(), dsuri.getPath(), dsuri.getQuery(), "dsdgen");
     Configuration conf = getConf();
+    conf.setInt("dfs.replication", 1);
     conf.setInt("mapred.task.timeout", 0);
     conf.setInt("mapreduce.task.timeout", 0);
     conf.setBoolean("mapreduce.map.output.compress", true);
